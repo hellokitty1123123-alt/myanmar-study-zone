@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AI Study Newsroom"
+description = "A Myanmar-language study newsroom for students, with an always-fresh reading feed, trustworthy learning resources, and a simple way to save articles for later."
+version = "1.0.0"
+id = "artifacts/study-newsroom"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23909
+
+[services.development]
+run = "pnpm --filter @workspace/study-newsroom run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/study-newsroom", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/study-newsroom/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23909"
+BASE_PATH = "/"
